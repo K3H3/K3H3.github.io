@@ -49,10 +49,11 @@ p {
 }
 
 .footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     text-align: center;
+    background-color: var(--color-dark);
 }
 
 .btn {
