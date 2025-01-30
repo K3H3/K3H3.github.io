@@ -1,6 +1,20 @@
+:root {
+    --color-primary: #ff9eb5;
+    --color-url: #add8e6;
+    --color-dark: #000;
+}
+
+.color-primary {
+    color: var(--color-primary);
+}
+
+.color-url {
+    color: var(--color-url);
+}
+
 body {
     background-color: #000;
-    color: #ff9eb5;
+    color: var(--color-primary);
     font-family: "Courier New", monospace;
     display: flex;
     justify-content: center;
@@ -10,10 +24,17 @@ body {
     text-align: center;
 }
 
+.wrapper {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center align the content */
+    gap: 20px; /* Optional: Adds spacing between containers */
+}
+
 .container {
     max-width: 600px;
     padding: 20px;
-    border: 2px solid #ff9eb5;
+    border: 2px solid var(--color-primary);
     border-radius: 10px;
 }
 
@@ -27,18 +48,25 @@ p {
     line-height: 1.5;
 }
 
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
 .btn {
     display: inline-block;
     margin-top: 15px;
     padding: 10px 20px;
-    border: 2px solid #ff9eb5;
-    color: #ff9eb5;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
     text-decoration: none;
     font-weight: bold;
     transition: 0.3s;
 }
 
 .btn:hover {
-    background-color: #ff9eb5;
-    color: #000;
+    background-color: var(--color-primary);
+    color: var(--color-dark);
 }
