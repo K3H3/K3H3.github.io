@@ -12,7 +12,8 @@
     color: var(--color-url);
 }
 
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
 }
@@ -33,9 +34,12 @@ body {
 
 .wrapper {
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center align the content */
-    gap: 30px; /* Optional: Adds spacing between containers */
+    flex-direction: column;
+    /* Stack elements vertically */
+    align-items: center;
+    /* Center align the content */
+    gap: 30px;
+    /* Optional: Adds spacing between containers */
 }
 
 .container {
@@ -63,6 +67,7 @@ p {
 .footer {
     width: 100%;
     text-align: center;
+    padding-bottom: 40px;
     background-color: var(--color-dark);
 }
 
@@ -82,4 +87,43 @@ p {
 .btn:hover {
     background-color: var(--color-primary);
     color: var(--color-dark);
+}
+
+#content {
+    padding: 20px;
+}
+
+#console {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #2d2d2d;
+    padding: 10px;
+    border-top: 1px solid #444;
+}
+
+#command-input {
+    width: 100%;
+    padding: 8px;
+    background-color: var(--color-dark);
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    font-family: "Courier New", monospace;
+}
+
+#content strong {
+    color: var(--color-url)
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
 }
