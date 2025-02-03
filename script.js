@@ -48,11 +48,14 @@ const commands = {
     `;
   },
 
+  // do not use local reconnect link but absolute one
+
   contact: () => {
     return `   
     <div class="container">
     <h2>contact</h2>
-    <p>Feel free to reach out to me on <a href="www.linkedin.com/in/k3h3" class="color-url">LinkedIn</a> or by
+    
+    <p>Feel free to reach out to me on <a href="https://www.linkedin.com/in/k3h3" class="color-url" target="_blank">LinkedIn</a> or by
         <a href="mailto:kx3hx3@gmail.com" class="color-url">Email</a>
     </p>
     </div>
@@ -65,6 +68,7 @@ const commands = {
       <p>Legal information goes here.<br>contact me by <a href="mailto:kx3hx3@gmail.com" class="color-url">Email</a></p>
     `;
   },
+  
   clear: () => {
     content.innerHTML = '';
     return '';
