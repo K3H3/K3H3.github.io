@@ -15,7 +15,6 @@ const commands = {
       - <strong>gallery</strong>: View the photo gallery.<br>
       - <strong>contact</strong>: View contact information.<br>
       - <strong>imprint</strong>: View the imprint.<br>
-      - <strong>clear</strong>: Clear the console.<br>
     `;
   },
 
@@ -55,7 +54,7 @@ const commands = {
     <div class="container">
     <h2>contact</h2>
     
-    <p>Feel free to reach out to me on <a href="https://www.linkedin.com/in/k3h3" class="color-url" target="_blank">LinkedIn</a> or by
+    <p>Feel free to reach out to me on <a href="https://www.linkedin.com/in/k3h3" class="color-url" target="_blank" rel="noopener noreferrer">LinkedIn</a> or by
         <a href="mailto:kx3hx3@gmail.com" class="color-url">Email</a>
     </p>
     </div>
@@ -69,10 +68,6 @@ const commands = {
     `;
   },
   
-  clear: () => {
-    content.innerHTML = '';
-    return '';
-  },
 };
 
 commandInput.addEventListener('keyup', (e) => {
