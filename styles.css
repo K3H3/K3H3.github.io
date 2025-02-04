@@ -56,12 +56,56 @@ body {
 
 h1 {
     font-size: 2em;
+    white-space: nowrap;
     /* margin-top: 20px; */
 }
 
 p {
     font-size: 1.2em;
     line-height: 1.5;
+}
+
+/* Existing styles */
+#console-text h1,
+#console-text p {
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0;
+}
+
+/* Add word-wrap for links */
+#console-text p {
+    white-space: normal;
+    /* Allow text to wrap */
+    word-wrap: break-word;
+    /* Break long words if necessary */
+}
+
+.color-url {
+    color: var(--color-url);
+    text-decoration: none;
+}
+
+.color-url:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+/* Cursor effect only for line 4 */
+#line5 {
+    border-right: 10px solid var(--color-primary);
+    animation: blink-cursor 0.75s step-end infinite;
+}
+
+@keyframes blink-cursor {
+
+    from,
+    to {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: var(--color-primary);
+    }
 }
 
 .footer {
