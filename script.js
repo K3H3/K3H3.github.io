@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', async function () {
           if (text[index - 1] === '>' || text[index - 1] === '<') {
             typingTimeout = setTimeout(typeCharacter, 0);
           } else {
-            typingTimeout = setTimeout(typeCharacter, 15);
+            typingTimeout = setTimeout(typeCharacter, 5);
           }
         } else {
           resolve();
