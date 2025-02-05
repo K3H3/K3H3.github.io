@@ -45,6 +45,8 @@ body {
     color: var(--color-light);
     box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
     margin: 20px auto; /* Add margin to the top */
+    position: relative; /* Ensure the console is above the photo */
+    z-index: 2; /* Ensure the console is above the photo */
 }
 
 #console-output {
@@ -159,16 +161,45 @@ body {
     height: 60px;
     cursor: pointer;
     filter: invert(83%) sepia(54%) saturate(877%) hue-rotate(290deg) brightness(102%) contrast(101%);
+    transition: transform 0.3s ease; /* Add transition for smooth animation */
+}
+
+.back-to-home img:hover {
+    transform: scale(1.2); /* Scale the image to 120% on hover */
 }
 
 .responsive-photo {
     width: auto;
-    height: auto;
-    max-height: 350px;
-    margin: 50px;
+    height: 200px;
+    margin: 20px;
     position: absolute;
     top: 20px;
     left: 20px;
+    z-index: 1;
+}
+
+@media (max-width: 1280px) {
+    .responsive-photo {
+        display: none; /* Hide the photo if it overlaps the console */
+    }
+}
+
+@media (max-width: 768px) {
+    .responsive-photo {
+        display: none; /* Hide the photo on mobile devices */
+    }
+}
+
+@media (max-width: 480px) {
+    .responsive-photo {
+        display: none; /* Hide the photo on smaller mobile devices */
+    }
+}
+
+@media (max-width: 1280px) {
+    .responsive-photo {
+        display: none; /* Hide the photo if it overlaps the console */
+    }
 }
 
 strong {

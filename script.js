@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   const galleryPopup = document.getElementById('gallery-popup');
   const closeGallery = galleryPopup.querySelector('.close');
   const galleryImages = galleryPopup.querySelectorAll('img');
+  const responsivePhoto = document.querySelector('.responsive-photo');
+  const consoleWindow = document.getElementById('console-window');
   let currentImageIndex = 0;
   let typingTimeout;
 
@@ -139,6 +141,29 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
     }
   });
+
+  // Function to check if elements overlap
+  function checkOverlap() {
+    const photoRect = responsivePhoto.getBoundingClientRect();
+    const consoleRect = consoleWindow.getBoundingClientRect();
+
+    if (
+      photoRect.right > consoleRect.left &&
+      photoRect.left < consoleRect.right &&
+      photoRect.bottom > consoleRect.top &&
+      photoRect.top < consoleRect.bottom
+    ) {
+      responsivePhoto.style.display = 'none';
+    } else {
+      responsivePhoto.style.display = 'block';
+    }
+  }
+
+  // Check for overlap on window resize
+  window.addEventListener('resize', checkOverlap);
+
+  // Initial check for overlap
+  checkOverlap();
 
   // Close gallery popup
   closeGallery.addEventListener('click', () => {
