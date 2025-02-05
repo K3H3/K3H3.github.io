@@ -32,9 +32,9 @@ body {
 }
 
 #console-window {
-    width: 80%;
+    width: 90%;
     max-width: 1280px;
-    height: 720px;
+    height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -119,8 +119,6 @@ body {
     width: 100%;
 }
 
-
-
 .gallery-popup {
     display: none;
     position: fixed;
@@ -164,4 +162,53 @@ body {
     height: 60px;
     cursor: pointer;
     filter: invert(83%) sepia(54%) saturate(877%) hue-rotate(290deg) brightness(102%) contrast(101%);
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    #console-window {
+        height: 60vh;
+        padding: 15px;
+    }
+
+    #command-input {
+        padding: 6px;
+        font-size: 0.9em;
+    }
+
+    .footer {
+        font-size: 0.9em;
+    }
+
+    .back-to-home img {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    #console-window {
+        height: 50vh;
+        padding: 10px;
+    }
+
+    #command-input {
+        padding: 5px;
+        font-size: 0.8em;
+    }
+
+    .footer {
+        font-size: 0.8em;
+    }
+
+    .back-to-home img {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-height: 600px) {
+    #console-window {
+        height: 40vh;
+    }
 }
