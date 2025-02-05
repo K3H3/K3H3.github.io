@@ -43,7 +43,7 @@ body {
     padding: 20px;
     background-color: var(--color-dark);
     color: var(--color-light);
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    box-shadow: 0 0 20px var(--color-light);
     margin: 20px auto; /* Add margin to the top */
     position: relative; /* Ensure the console is above the photo */
     z-index: 2; /* Ensure the console is above the photo */
