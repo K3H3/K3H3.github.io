@@ -36,15 +36,24 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
+  function nextImage() {
+    currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+    showImage(currentImageIndex);
+  }
+
+  function previousImage() {
+    currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+    showImage(currentImageIndex);
+  }
+
   galleryPopup.addEventListener('click', (e) => {
     const rect = galleryPopup.getBoundingClientRect();
     const x = e.clientX - rect.left;
     if (x < rect.width / 2) {
-      currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+      previousImage();
     } else {
-      currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+      nextImage();
     }
-    showImage(currentImageIndex);
   });
 
   // Close gallery popup
@@ -63,6 +72,10 @@ document.addEventListener('DOMContentLoaded', async function () {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeGalleryPopup();
+    } else if (e.key === 'ArrowRight') {
+      nextImage();
+    } else if (e.key === 'ArrowLeft') {
+      previousImage();
     }
   });
 
