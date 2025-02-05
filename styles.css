@@ -1,6 +1,6 @@
 :root {
     --color-primary: #ff9eb5;
-    --color-dark: #000000;
+    --color-dark: #101010;
     --color-light: #add8e6;
 }
 
@@ -43,7 +43,7 @@ body {
     padding: 20px;
     background-color: var(--color-dark);
     color: var(--color-light);
-    box-shadow: 0 0 20px var(--color-light);
+    box-shadow: 0 0 15px var(--color-primary);
     margin: 20px auto; /* Add margin to the top */
     position: relative; /* Ensure the console is above the photo */
     z-index: 2; /* Ensure the console is above the photo */
