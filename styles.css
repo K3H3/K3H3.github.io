@@ -164,6 +164,16 @@ body {
     filter: invert(83%) sepia(54%) saturate(877%) hue-rotate(290deg) brightness(102%) contrast(101%);
 }
 
+.responsive-photo {
+    width: auto;
+    height: auto;
+    max-height: 350px;
+    margin: 50px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
 /* Media queries for responsiveness */
 @media (max-width: 768px) {
     #console-window {
@@ -183,6 +193,10 @@ body {
     .back-to-home img {
         width: 50px;
         height: 50px;
+    }
+
+    .responsive-photo {
+        display: none;
     }
 }
 
