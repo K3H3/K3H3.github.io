@@ -1,44 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>k3h3 | Profile</title>
+    <title>Terminal Homepage</title>
 </head>
+<body>
+    <div id="console-window">
+        <div id="console-output"></div>
 
-<body class="top-spacing">
-    <main class="wrapper">
-        <div class="container" id="console-text">
-            <h1 id="line1"></h1>
-            <p id="line2"></p>
-            <p id="line3"></p>
-            <p id="line4"></p>
-            <p id="line5"></p>
-            <button class="btn" onclick="DiscoverMore()">Discover More</button>
+        <div id="console-input-container">
+            <span>></span><input type="text" id="command-input" placeholder="Type a command...">
         </div>
-
-        <div class="container">
-            <h2>now</h2>
-            <p>Writing a wearable app for <a href="https://apps.garmin.com" class="color-url">Garmin Connect IQ</a> </p>
-            <p>using <a href="https://developer.garmin.com/connect-iq/monkey-c/" class="color-url">Monkey C</a> and a
-                lot of
-                API-requests</p>
-            <br>
-            <p>Also into humanities and critical design atm!</p>
-        </div>
-
-        <div id="content">
-            <p>Type <strong>help</strong> in the console below to see available commands.</p>
-        </div>
-    </main>
-
-    <div id="console">
-        <input type="text" id="command-input" placeholder="Type a command...">
     </div>
     <div class="footer">
-        <p>Made with ❤️‍🔥 by k3h3</p>
+        <p>Made with ❤️‍🔥 by k3h3 - <a class="color-light" href="./imprint.html">imprint</a></p>
+    </div>
+    <div id="gallery-popup" class="gallery-popup">
+        <span class="close">&times;</span>
+        <img src="./photos/ingmar-h-QNb02C_HyxQ-unsplash.jpg" alt="ingmar-h-QNb02C_HyxQ-unsplash">
+        <img src="./photos/nils-leonhardt-vMoZvKeZOhw-unsplash.jpg" alt="nils-leonhardt-vMoZvKeZOhw-unsplash">
+        <img src="./photos/riccardo-andolfo-4GPhufVYp-8-unsplash.jpg" alt="riccardo-andolfo-4GPhufVYp-8-unsplash">
     </div>
     <script src="script.js"></script>
 </body>

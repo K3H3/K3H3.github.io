@@ -1,131 +1,132 @@
-function DiscoverMore() {
-  // open specified link
-  window.open("https://shattereddisk.github.io/rickroll/rickroll.mp4");
-}
+document.addEventListener('DOMContentLoaded', async function () {
+  const commandInput = document.getElementById('command-input');
+  const consoleOutput = document.getElementById('console-output');
+  const galleryPopup = document.getElementById('gallery-popup');
+  const closeGallery = galleryPopup.querySelector('.close');
+  const galleryImages = galleryPopup.querySelectorAll('img');
+  let currentImageIndex = 0;
+  let typingTimeout;
 
-const lines = [
-  { id: "line1", text: "k3h3" },
-  { id: "line2", text: "Vienna based dog loving developer" },
-  { id: "line3", text: "Learning fun stuff at <a href='https://informatics.tuwien.ac.at/master/media-and-human-centered-computing/' class='color-url'>TU Wien</a>" },
-  { id: "line4", text: "Deeply in love with Pebbles" },
-  { id: "line5", text: "To interact use console at the bottom of this site" },
-];
+  const commands = {
+    help: () => `
+          <p>Available commands:</p><br><strong>home</strong>: Go to the homepage.<br><strong>portfolio</strong>: View my portfolio.<br><strong>gallery</strong>: View the photo gallery.<br><strong>contact</strong>: View contact information.<br><strong>imprint</strong>: View the imprint.
+      `,
+    home: () => `
+          <p>Welcome! Type <strong>help</strong> for available commands.</p>
+      `,
+    portfolio: () => `
+          <p>Portfolio: university projects<br><br>CosmoClick:<br>Wearable IR remotecontrol with gesture recognition realized on M5 Stick C+ realized with M. Frühwirth & F. Pusch<br><br>Hennis:<br>VR Multiplayer game in farmer setting realized in Unity with M. Rathauscher</p>          
+      `,
+    gallery: () => {
+      galleryPopup.classList.add('active');
+      showImage(currentImageIndex);
+      return '<p>Opening gallery...</p>';
+    },
+    contact: () => `
+          <p>Contact me via <a class="color-primary" href="mailto:kx3hx3@gmail.com">Email</a> or <a class="color-primary" href="https://www.linkedin.com/in/example">LinkedIn</a>.</p>
+      `,
+    imprint: () => `
+          <p>Legal information goes here.</p>
+      `,
+  };
 
-let currentLine = 0;
-let currentChar = 0;
-let tempText = ""; // Stores the progressively built text
-
-function typeWriter() {
-  if (currentLine < lines.length) {
-    const line = lines[currentLine];
-    const element = document.getElementById(line.id);
-
-    if (currentChar < line.text.length) {
-      if (line.text[currentChar] === "<") {
-        // Detect the start of an HTML tag
-        const tagEnd = line.text.indexOf(">", currentChar) + 1;
-        if (tagEnd > 0) {
-          // Immediately insert the full HTML tag
-          tempText += line.text.substring(currentChar, tagEnd);
-          currentChar = tagEnd; // Move the cursor past the tag
-        }
-      } else {
-        // Type normal characters one by one
-        tempText += line.text[currentChar];
-        currentChar++;
-      }
-
-      element.innerHTML = tempText; // Re-set innerHTML to render properly
-      setTimeout(typeWriter, 50); // Adjust typing speed here
-    } else {
-      // Move to the next line
-      currentLine++;
-      currentChar = 0;
-      tempText = ""; // Reset tempText for the next line
-
-      setTimeout(typeWriter, 500); // Delay before the next line starts
-    }
+  function showImage(index) {
+    galleryImages.forEach((img, i) => {
+      img.style.display = i === index ? 'block' : 'none';
+    });
   }
-}
-// Start the typewriter effect when the page loads
-window.onload = typeWriter;
 
-const content = document.getElementById('content');
-const commandInput = document.getElementById('command-input');
+  galleryPopup.addEventListener('click', (e) => {
+    const rect = galleryPopup.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    if (x < rect.width / 2) {
+      currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+    } else {
+      currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+    }
+    showImage(currentImageIndex);
+  });
 
-const commands = {
-  help: () => {
-    return `
-      Available commands:<br>
-      - <strong>home</strong>: Go to the homepage.<br>
-      - <strong>portfolio</strong>: View my portfolio.<br>
-      - <strong>gallery</strong>: View the photo gallery.<br>
-      - <strong>contact</strong>: View contact information.<br>
-      - <strong>imprint</strong>: View the imprint.<br>
-    `;
-  },
+  // Close gallery popup
+  function closeGalleryPopup() {
+    galleryPopup.classList.remove('active');
+  }
 
-  home: () => {
-    return `
-    <p>Type <strong>help</strong> in the console below to see available commands.</p>
-    `;
-  },
+  closeGallery.addEventListener('click', closeGalleryPopup);
 
-  portfolio: () => {
-    return `
-      <div class="container">
-        <h2>Portfolio: university projects</h2>
-          <p>CosmoClick:</a> Wearable IR remotecontrol with gesture recognition realized on M5 Stick C+<br>realized
-              with M. Frühwirth & F. Pusch</p>
-          <p>Hennis:</a> VR Multiplayer game in farmer setting<br>realized in Unity with M. Rathauscher</p>
-      </div>
-    `;
-  },
+  galleryPopup.addEventListener('click', (e) => {
+    if (e.target === galleryPopup) {
+      closeGalleryPopup();
+    }
+  });
 
-  gallery: () => {
-    return `
-      <h1>Photo Gallery</h1>
-      <p>Here are some photos:</p>
-      <div class="gallery">
-        <img src="./photos/nils-leonhardt-vMoZvKeZOhw-unsplash.jpg" alt="Photo 1">
-        <img src="./photos/riccardo-andolfo-4GPhufVYp-8-unsplash.jpg" alt="Photo 2">
-        <img src="./photos/ingmar-h-QNb02C_HyxQ-unsplash.jpg" alt="Photo 3">
-      </div>
-    `;
-  },
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeGalleryPopup();
+    }
+  });
 
-  // do not use local reconnect link but absolute one
+  // Function to handle typing text in the terminal-like style
+  function typeText(text) {
+    return new Promise(resolve => {
+      let currentText = '';
+      let index = 0;
 
-  contact: () => {
-    return `   
-    <div class="container">
-    <h2>contact</h2>
-    
-    <p>Feel free to reach out to me on <a href="https://www.linkedin.com/in/k3h3" class="color-url" target="_blank" rel="noopener noreferrer">LinkedIn</a> or by
-        <a href="mailto:kx3hx3@gmail.com" class="color-url">Email</a>
-    </p>
-    </div>
-  `;
-  },
+      function typeCharacter() {
+        if (index < text.length) {
+          currentText += text[index];
+          consoleOutput.lastElementChild.innerHTML = currentText;
+          index++;
+          consoleOutput.scrollTop = consoleOutput.scrollHeight; // Follow the scrollbar to the bottom
+          if (text[index - 1] === '>' || text[index - 1] === '<') {
+            typingTimeout = setTimeout(typeCharacter, 0);
+          } else {
+            typingTimeout = setTimeout(typeCharacter, 15);
+          }
+        } else {
+          resolve();
+        }
+      }
+      typeCharacter();
+    });
+  }
 
-  imprint: () => {
-    return `
-      <h1>Imprint</h1>
-      <p>Legal information goes here.<br>contact me by <a href="mailto:kx3hx3@gmail.com" class="color-url">Email</a></p>
-    `;
-  },
-
-};
-
-commandInput.addEventListener('keyup', (e) => {
-  if (e.key === 'Enter') {
-    const command = commandInput.value.trim().toLowerCase();
-    commandInput.value = '';
+  // Function to execute a command
+  async function executeCommand(command) {
+    clearTimeout(typingTimeout); // Stop current text production
+    const commandElement = document.createElement('p');
+    commandElement.innerHTML = `> ${command}`;
+    consoleOutput.appendChild(commandElement);
 
     if (commands[command]) {
-      content.innerHTML = commands[command]();
+      const outputElement = document.createElement('div');
+      consoleOutput.appendChild(outputElement);
+      await typeText(commands[command]());
     } else {
-      content.innerHTML = `<p>Command not found. Type <strong>help</strong> for a list of commands.</p>`;
+      await typeText('<p>Command not found. Type <strong>help</strong> for a list of commands.</p>');
     }
+
+    // Scroll to the bottom of the console output
+    consoleOutput.scrollTop = consoleOutput.scrollHeight;
   }
+
+  // Handle user input
+  commandInput.addEventListener('keyup', async function (e) {
+    if (e.key === 'Enter') {
+      const command = commandInput.value.trim().toLowerCase();
+      commandInput.value = '';
+
+      if (command) {
+        await executeCommand(command);
+      }
+    }
+  });
+
+  // Close gallery popup
+  closeGallery.addEventListener('click', () => {
+    galleryPopup.classList.remove('active');
+  });
+
+  // Trigger "home" on page load
+  await executeCommand("home");
 });
