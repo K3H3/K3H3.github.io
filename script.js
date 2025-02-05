@@ -9,7 +9,11 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   const commands = {
     help: () => `
-          <p>Available commands:</p><br><strong>home</strong>: Go to the homepage.<br><strong>portfolio</strong>: View my portfolio.<br><strong>gallery</strong>: View the photo gallery.<br><strong>contact</strong>: View contact information.<br><strong>imprint</strong>: View the imprint.
+          <p>Available commands:</p><br><strong>home</strong>: Go to the homepage.<br><strong>now</strong>: Get info of current projects and interests.<br><strong>portfolio</strong>: View my portfolio built of university projects.<br><strong>gallery</strong>: View the photo gallery. No professional photos, just a gallery showcase.<br><strong>contact</strong>: View contact information.<br><strong>imprint</strong>: View the imprint.
+      `,
+    now: () => `
+            <p>Writing a wearable app for <a href="https://apps.garmin.com" class="color-primary">Garmin Connect IQ</a> using <a href="https://developer.garmin.com/connect-iq/monkey-c/" class="color-primary">Monkey C</a> and a lot of API-requests</p>
+            <p>Also into running, humanities and critical design atm!</p>
       `,
     home: () => `
           <p>Welcome! Type <strong>help</strong> for available commands.</p>
@@ -26,7 +30,8 @@ document.addEventListener('DOMContentLoaded', async function () {
           <p>Contact me via <a class="color-primary" href="mailto:kx3hx3@gmail.com">Email</a> or <a class="color-primary" href="https://www.linkedin.com/in/example">LinkedIn</a>.</p>
       `,
     imprint: () => `
-          <p>Legal information goes here.</p>
+          <p>This isn't a commercial website, so no imprint is needed.</p>
+          <p>If you want, you can contact me via <a class="color-primary" href="mailto:kx3hx3@gmail.com">Email</a> or <a class="color-primary" href="https://www.linkedin.com/in/example">LinkedIn</a>.</p>
       `,
   };
 
@@ -142,4 +147,5 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   // Trigger "home" on page load
   await executeCommand("home");
+  await executeCommand("now");
 });
