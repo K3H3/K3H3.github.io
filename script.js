@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', async function () {
           <p>Available commands:</p><br><strong>now</strong>: Get info of current projects and interests.<br><strong>portfolio</strong>: View my portfolio built of university projects.<br><strong>gallery</strong>: View the photo gallery. No professional photos, just a gallery showcase.<br><strong>contact</strong>: View contact information.<br><strong>imprint</strong>: View the imprint.
       `,
     now: () => `
-            <p>Writing a wearable app for <a href="https://apps.garmin.com" class="color-primary">Garmin Connect IQ</a> using <a href="https://developer.garmin.com/connect-iq/monkey-c/" class="color-primary">Monkey C</a> and a lot of API-requests</p>
-            <p>Also into running, humanities and critical design atm!</p>
+            <p>Writing a wearable app for <a href="https://apps.garmin.com" class="color-primary">Garmin Connect IQ</a> using <a href="https://developer.garmin.com/connect-iq/monkey-c/" class="color-primary">Monkey C</a> and a lot of API-requests.</p>
+            <p>Loving dogs, running, bouldering and critical thinking!</p>
       `,
     home: () => `
           <p>Welcome! Type <strong>help</strong> for available commands.</p>
