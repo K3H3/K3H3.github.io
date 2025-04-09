@@ -1,22 +1,21 @@
 document.addEventListener('DOMContentLoaded', async function () {
-  const commandInput = document.getElementById('command-input');
-  const consoleOutput = document.getElementById('console-output');
+  const consoleText = document.getElementById('console-text');
   const galleryPopup = document.getElementById('gallery-popup');
   const closeGallery = galleryPopup.querySelector('.close');
   const galleryImages = galleryPopup.querySelectorAll('img');
   const responsivePhoto = document.querySelector('.responsive-photo');
   const consoleWindow = document.getElementById('console-window');
   let currentImageIndex = 0;
-  let typingTimeout;
-
-  {/* <br><strong>home</strong>: Go to the homepage. */ }
+  let pseudoPath = "Drive:\\OS\\PathToHome\\K3H3\\> ";
+  const blinkInterval = 500;
 
   const commands = {
     help: () => `
-          <p>Available commands:</p><br><strong>now</strong>: Get info of current projects and interests.<br><strong>portfolio</strong>: View my portfolio built of university projects.<br><strong>gallery</strong>: View the photo gallery. No professional photos, just a gallery showcase.<br><strong>contact</strong>: View contact information.<br><strong>imprint</strong>: View the imprint.
+          <p><br>Available commands:</p><br><strong>now</strong>: Get info of current projects and interests.<br><strong>portfolio</strong>: View my portfolio built of university projects.<br><strong>gallery</strong>: View the photo gallery. No professional photos, just a gallery showcase.<br><strong>contact</strong>: View contact information.<br><strong>imprint</strong>: View the imprint.
       `,
     now: () => `
-            <p>Writing a wearable app for <a href="https://apps.garmin.com" class="color-primary">Garmin Connect IQ</a> using <a href="https://developer.garmin.com/connect-iq/monkey-c/" class="color-primary">Monkey C</a> and a lot of API-requests.</p>
+            <p>Just published the first Alpha version of a wearable app for <a href="https://apps.garmin.com" class="color-primary">Garmin Connect IQ</a> using <a href="https://developer.garmin.com/connect-iq/monkey-c/" class="color-primary">Monkey C</a> and a lot of API-requests.</p>
+            <p>Link to the app <a href="https://github.com/K3H3/CIQVRM" class="color-primary">here</a>.</p>
             <p>Loving dogs, running, bouldering and critical thinking!</p>
       `,
     home: () => `
@@ -38,6 +37,9 @@ document.addEventListener('DOMContentLoaded', async function () {
           <p>If you want, you can contact me via <a class="color-primary" href="mailto:kx3hx3@gmail.com">Email</a> or <a class="color-primary" href="https://www.linkedin.com/in/example">LinkedIn</a>.</p>
       `,
   };
+
+  // Initialize console with pseudo path + space before the blinking cursor
+  consoleText.innerHTML = pseudoPath + " ";
 
   function showImage(index) {
     galleryImages.forEach((img, i) => {
@@ -88,59 +90,74 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   });
 
-  // Function to handle typing text in the terminal-like style
-  function typeText(text) {
-    return new Promise(resolve => {
-      let currentText = '';
-      let index = 0;
+  // Function to append text to the console
+  function printToConsole(line) {
+    consoleText.innerHTML += line + "<br>";
+    consoleText.scrollTop = consoleText.scrollHeight;
+  }
 
-      function typeCharacter() {
-        if (index < text.length) {
-          currentText += text[index];
-          consoleOutput.lastElementChild.innerHTML = currentText;
-          index++;
-          consoleOutput.scrollTop = consoleOutput.scrollHeight; // Follow the scrollbar to the bottom
-          if (text[index - 1] === '>' || text[index - 1] === '<') {
-            typingTimeout = setTimeout(typeCharacter, 0);
-          } else {
-            typingTimeout = setTimeout(typeCharacter, 5);
-          }
-        } else {
-          resolve();
-        }
-      }
-      typeCharacter();
-    });
+  // Convert basic HTML tags to line breaks
+  function formatCommandOutput(html) {
+    return html
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<p>/gi, "\n")
+      .replace(/<\/p>/gi, "\n")
+      .trim();
   }
 
   // Function to execute a command
   async function executeCommand(command) {
-    clearTimeout(typingTimeout); // Stop current text production
-    const commandElement = document.createElement('p');
-    commandElement.innerHTML = `> ${command}`;
-    consoleOutput.appendChild(commandElement);
-
     if (commands[command]) {
-      const outputElement = document.createElement('div');
-      consoleOutput.appendChild(outputElement);
-      await typeText(commands[command]());
+      // Format the command output and print
+      const cleanOutput = formatCommandOutput(commands[command]());
+      // Add an extra blank line before cleanOutput
+      printToConsole("");
+      printToConsole(cleanOutput);
+      // Ensure cursor is placed at end after printing
+      placeCursorAtEnd(consoleText);
     } else {
-      await typeText('<p>Command not found. Type <strong>help</strong> for a list of commands.</p>');
+      printToConsole("Command not recognized. Type 'help' for a list of commands and usage instructions.");
     }
-
-    // Scroll to the bottom of the console output
-    consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    // Re-append path + space for next input
+    consoleText.innerHTML += pseudoPath + " ";
   }
 
-  // Handle user input
-  commandInput.addEventListener('keyup', async function (e) {
-    if (e.key === 'Enter') {
-      const command = commandInput.value.trim().toLowerCase();
-      commandInput.value = '';
+  // Function to place cursor at the end of the input
+  function placeCursorAtEnd(target) {
+    if (typeof window.getSelection !== "undefined" && typeof document.createRange !== "undefined") {
+      const range = document.createRange();
+      range.selectNodeContents(target);
+      range.collapse(false);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  }
 
-      if (command) {
-        await executeCommand(command);
-      }
+  consoleText.addEventListener('mousedown', (e) => {
+    consoleText.focus();
+    placeCursorAtEnd(consoleText);
+  });
+
+  // Handle user input
+  consoleText.addEventListener('keydown', async function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      let lines = consoleText.innerText.split("\n");
+      let lastLine = lines[lines.length - 1].replace(pseudoPath, "").trim();
+      // Add a blank line after user input
+      consoleText.innerHTML += "<br>";
+      await executeCommand(lastLine);
+      // Ensure cursor is placed at end after printing
+      placeCursorAtEnd(consoleText);
+    }
+  });
+
+  consoleText.addEventListener('click', (e) => {
+    if (e.target.tagName.toLowerCase() === 'a') {
+      e.preventDefault();
+      // Open link in a new tab
+      window.open(e.target.href, '_blank');
     }
   });
 
@@ -172,7 +189,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     galleryPopup.classList.remove('active');
   });
 
-  // Trigger "home" on page load
+  // Trigger "home" and "now" on page load
   await executeCommand("home");
   await executeCommand("now");
+
+  // Focus the console immediately on page load
+  consoleText.focus();
 });
