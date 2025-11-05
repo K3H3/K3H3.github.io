@@ -10,25 +10,14 @@ document.addEventListener('DOMContentLoaded', async function () {
   const blinkInterval = 500;
 
   const commands = {
-    help: () => `
-          <p><br>Available commands:</p><br><strong>now</strong>: Get info of current projects and interests.<br><strong>portfolio</strong>: View my portfolio built of university projects.<br><strong>gallery</strong>: View the photo gallery. No professional photos, just a gallery showcase.<br><strong>contact</strong>: View contact information.<br><strong>imprint</strong>: View the imprint.
-      `,
-    now: () => `
-            <p>Just published the first Alpha version of a wearable app for <a href="https://apps.garmin.com" class="color-primary">Garmin Connect IQ</a> using <a href="https://developer.garmin.com/connect-iq/monkey-c/" class="color-primary">Monkey C</a> and a lot of API-requests.</p>
+    help: () => `<p><br>Available commands:</p><br><strong>now</strong>: Get info of current projects and interests.<br><strong>portfolio</strong>: View my portfolio built of university projects.<br><strong>gallery</strong>: View the photo gallery. No professional photos, just a gallery showcase.<br><strong>contact</strong>: View contact information.<br><strong>imprint</strong>: View the imprint.`,
+    now: () => `<p>Just published the first Alpha version of a wearable app for <a href="https://apps.garmin.com" class="color-primary">Garmin Connect IQ</a> using <a href="https://developer.garmin.com/connect-iq/monkey-c/" class="color-primary">Monkey C</a> and a lot of API-requests.</p>
             <p>Link to the app <a href="https://github.com/K3H3/CIQVRM" class="color-primary">here</a>.</p>
-            <p>Loving dogs, running, bouldering and critical thinking!</p>
-            <p>Currently learning more about aviation and aviation radio communication.</p>
-            <p>Check out my latest short project <a href="https://k3h3.eu/radarnotes" class="color-primary">Radar Notes</a>.</p>
-      `,
-    home: () => `
-          <p>Welcome! I am K. Hessdoerfer, a student from Germany currently studying at TU Wien.</p>
-          <p>Tip: You can type commands directly into this console window.</p>
-          <p>Type <strong>help</strong> for available commands.</p>
-      `,
-    portfolio: () => `
-          <p>Portfolio: university projects<br><br>CosmoClick:<br>Wearable IR remotecontrol with gesture recognition realized on M5 Stick C+ realized with M. Frühwirth & F. Pusch<br><br>Hennis:<br>VR Multiplayer game in farmer setting realized in Unity with M. Rathauscher</p>      
-          <p>Sunday afternoon project with API read out and synths: <a href="./radarnotes/index.html" class="color-primary">Radar Notes</a></p>    
-      `,
+            <p>Loving dogs, outdoor sports and the bavarian card game Schafkopf!<br>Currently I'm learning more about aviation and aviation radio communication.</p>
+            <p>Check out my latest short project <a href="https://k3h3.eu/radarnotes" class="color-primary">Radar Notes</a>.</p>`,
+    home: () => `<p>Hi! We are K. Hessdoerfer :)</p><p>Currently I'm finishing my master's degree of Media and Human-Centered Computing at TU Wien.</p><p>Although I'm currently living in Erlangen my heart belongs to Vienna.</p><p>Tip: You can type commands directly into this console window.</p>
+          <p>Type "help" for available commands.</p>`,
+    portfolio: () => `<p>Portfolio: university projects<br><br>CosmoClick:<br>Wearable IR remotecontrol with gesture recognition realized on M5 Stick C+ realized with M. Frühwirth & F. Pusch<br><br>Hennis:<br>VR Multiplayer game in farmer setting realized in Unity with M. Rathauscher</p><p>Sunday afternoon project with API read out and synths: <a href="./radarnotes/index.html" class="color-primary">Radar Notes</a></p>`,
     gallery: () => {
       galleryPopup.classList.add('active');
       showImage(currentImageIndex);
@@ -226,6 +215,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       const tn = document.createTextNode(ch);
       consoleText.appendChild(tn);
       consoleText.scrollTop = consoleText.scrollHeight;
+      placeCursorAtEnd(consoleText);
       await sleep(charDelay);
     }
 
@@ -261,14 +251,15 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   // Start-up sequence: show home output quickly, then type 'now' super-slowly.
   await executeCommand("home");
-  // Type 'now' super slow so the user can watch it appear
+
+  await sleep(400);
+
   await typeAndEnter("now", 350, 500);
 
   // Ensure caret is placed at the very end after 'now' output finishes
   placeCursorAtEnd(consoleText);
 
-  // Short pause so the user can read the 'now' output
-  await sleep(400);
+  
 
   // Ensure there is a fresh prompt line for input. executeCommand usually
   // appends the pseudoPath, but depending on timing it might not be present
