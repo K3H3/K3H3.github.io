@@ -17,12 +17,15 @@ document.addEventListener('DOMContentLoaded', async function () {
             <p>Just published the first Alpha version of a wearable app for <a href="https://apps.garmin.com" class="color-primary">Garmin Connect IQ</a> using <a href="https://developer.garmin.com/connect-iq/monkey-c/" class="color-primary">Monkey C</a> and a lot of API-requests.</p>
             <p>Link to the app <a href="https://github.com/K3H3/CIQVRM" class="color-primary">here</a>.</p>
             <p>Loving dogs, running, bouldering and critical thinking!</p>
+            <p>Currently learning more about aviation and aviation radio communication.</p>
+            <p>Check out my latest short project <a href="https://k3h3.eu/radarnotes" class="color-primary">Radar Notes</a>.</p>
       `,
     home: () => `
           <p>Welcome! Type <strong>help</strong> for available commands.</p>
       `,
     portfolio: () => `
-          <p>Portfolio: university projects<br><br>CosmoClick:<br>Wearable IR remotecontrol with gesture recognition realized on M5 Stick C+ realized with M. Frühwirth & F. Pusch<br><br>Hennis:<br>VR Multiplayer game in farmer setting realized in Unity with M. Rathauscher</p>          
+          <p>Portfolio: university projects<br><br>CosmoClick:<br>Wearable IR remotecontrol with gesture recognition realized on M5 Stick C+ realized with M. Frühwirth & F. Pusch<br><br>Hennis:<br>VR Multiplayer game in farmer setting realized in Unity with M. Rathauscher</p>      
+          <p>Sunday afternoon project with API read out and synths: <a href="./radarnotes/index.html" class="color-primary">Radar Notes</a></p>    
       `,
     gallery: () => {
       galleryPopup.classList.add('active');
