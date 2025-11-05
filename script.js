@@ -21,7 +21,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             <p>Check out my latest short project <a href="https://k3h3.eu/radarnotes" class="color-primary">Radar Notes</a>.</p>
       `,
     home: () => `
-          <p>Welcome! Type <strong>help</strong> for available commands.</p>
+          <p>Welcome! I am K. Hessdoerfer, a student from Germany currently studying at TU Wien.</p>
+          <p>Tip: You can type commands directly into this console window.</p>
+          <p>Type <strong>help</strong> for available commands.</p>
       `,
     portfolio: () => `
           <p>Portfolio: university projects<br><br>CosmoClick:<br>Wearable IR remotecontrol with gesture recognition realized on M5 Stick C+ realized with M. Frühwirth & F. Pusch<br><br>Hennis:<br>VR Multiplayer game in farmer setting realized in Unity with M. Rathauscher</p>      
@@ -111,11 +113,22 @@ document.addEventListener('DOMContentLoaded', async function () {
   // Function to execute a command
   async function executeCommand(command) {
     if (commands[command]) {
-      // Format the command output and print
-      const cleanOutput = formatCommandOutput(commands[command]());
-      // Add an extra blank line before cleanOutput
+      const rawHtml = commands[command]();
+      const cleanOutput = formatCommandOutput(rawHtml);
+
+      // Add an extra blank line before output
       printToConsole("");
-      printToConsole(cleanOutput);
+
+      // Animate the 'home' output (letter-by-letter), then print the real HTML
+      if (command === 'home') {
+        await animatePlainText(cleanOutput, 28);
+        // After animation, print the HTML version so links are clickable
+        printToConsole(rawHtml);
+      } else {
+        // Default behavior: print the formatted output directly
+        printToConsole(cleanOutput);
+      }
+
       // Ensure cursor is placed at end after printing
       placeCursorAtEnd(consoleText);
     } else {
@@ -150,7 +163,9 @@ document.addEventListener('DOMContentLoaded', async function () {
       let lastLine = lines[lines.length - 1].replace(pseudoPath, "").trim();
       // Add a blank line after user input
       consoleText.innerHTML += "<br>";
-      await executeCommand(lastLine);
+      // Make input case-insensitive by using a lowercased key for command lookup
+      const cmdKey = lastLine.toLowerCase();
+      await executeCommand(cmdKey);
       // Ensure cursor is placed at end after printing
       placeCursorAtEnd(consoleText);
     }
@@ -166,6 +181,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   // Function to check if elements overlap
   function checkOverlap() {
+    // If there's no responsive photo element present, nothing to check.
+    if (!responsivePhoto) return;
+
     const photoRect = responsivePhoto.getBoundingClientRect();
     const consoleRect = consoleWindow.getBoundingClientRect();
 
@@ -192,10 +210,76 @@ document.addEventListener('DOMContentLoaded', async function () {
     galleryPopup.classList.remove('active');
   });
 
-  // Trigger "home" and "now" on page load
-  await executeCommand("home");
-  await executeCommand("now");
+  // Small helper sleep
+  function sleep(ms) {
+    return new Promise((res) => setTimeout(res, ms));
+  }
 
-  // Focus the console immediately on page load
-  consoleText.focus();
+  // Type a command slowly (after the pseudoPath) and then simulate Enter
+  async function typeAndEnter(command, charDelay = 160, postDelay = 300) {
+    // Ensure focus and cursor at the end
+    consoleText.focus();
+    placeCursorAtEnd(consoleText);
+
+    // Type each character as a text node so HTML stays intact
+    for (const ch of command) {
+      const tn = document.createTextNode(ch);
+      consoleText.appendChild(tn);
+      consoleText.scrollTop = consoleText.scrollHeight;
+      await sleep(charDelay);
+    }
+
+    // slight pause, then simulate Enter (add break and execute)
+    await sleep(postDelay);
+    consoleText.innerHTML += "<br>";
+    await executeCommand(command);
+  }
+
+  // Animate plain text (with newlines) into the console letter-by-letter
+  async function animatePlainText(plainText, charDelay = 24) {
+    // Create a temporary container for the animated text so we don't break HTML
+    const container = document.createElement('span');
+    container.className = 'animating-output';
+    consoleText.appendChild(container);
+
+    for (const ch of plainText) {
+      if (ch === '\n') {
+        container.appendChild(document.createElement('br'));
+      } else {
+        container.appendChild(document.createTextNode(ch));
+      }
+      consoleText.scrollTop = consoleText.scrollHeight;
+      await sleep(charDelay);
+    }
+
+    // small pause after finishing
+    await sleep(120);
+
+    // Remove animated placeholder (we will print the real HTML output next)
+    container.remove();
+  }
+
+  // Start-up sequence: show home output quickly, then type 'now' super-slowly.
+  await executeCommand("home");
+  // Type 'now' super slow so the user can watch it appear
+  await typeAndEnter("now", 350, 500);
+
+  // Ensure caret is placed at the very end after 'now' output finishes
+  placeCursorAtEnd(consoleText);
+
+  // Short pause so the user can read the 'now' output
+  await sleep(400);
+
+  // Ensure there is a fresh prompt line for input. executeCommand usually
+  // appends the pseudoPath, but depending on timing it might not be present
+  // yet — check the last visible line and only append if missing.
+  const lines = consoleText.innerText.split("\n");
+  const lastLine = (lines[lines.length - 1] || "").trim();
+  if (lastLine !== pseudoPath.trim()) {
+    // Add a blank line and the prompt
+    consoleText.innerHTML += "<br>" + pseudoPath + " ";
+  }
+
+  // Put the caret in the best spot for input (at the end of the prompt)
+  placeCursorAtEnd(consoleText);
 });
